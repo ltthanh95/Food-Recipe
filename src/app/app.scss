@@ -1,0 +1,507 @@
+// ── Tabler Icons: add to index.html <head> ───────────────────────────────────
+// <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+
+// ── SCSS Variables ────────────────────────────────────────────────────────────
+$topnav-h:       60px;
+$sidebar-w:      240px;
+
+$c-bg:           #0f0d0a;
+$c-surface:      #1a1712;
+$c-surface2:     #231f19;
+$c-border:       rgba(255, 255, 255, 0.07);
+$c-accent:       #d4843a;
+$c-accent-muted: rgba(212, 132, 58, 0.12);
+$c-text:         #f0ebe3;
+$c-text-muted:   #8a8278;
+$c-text-dim:     #4a4540;
+$c-danger:       #e24b4a;
+
+$radius-sm:      6px;
+$radius-md:      10px;
+$radius-lg:      14px;
+
+$font-ui:        system-ui, sans-serif;
+$font-body:      'Georgia', 'Times New Roman', serif;
+
+// ── CSS Custom Properties (runtime, for dynamic values) ───────────────────────
+:root {
+  --topnav-h:      #{$topnav-h};
+  --sidebar-w:     #{$sidebar-w};
+  --c-bg:          #{$c-bg};
+  --c-surface:     #{$c-surface};
+  --c-surface2:    #{$c-surface2};
+  --c-border:      #{$c-border};
+  --c-accent:      #{$c-accent};
+  --c-text:        #{$c-text};
+  --c-text-muted:  #{$c-text-muted};
+  --c-text-dim:    #{$c-text-dim};
+  --radius-sm:     #{$radius-sm};
+  --radius-md:     #{$radius-md};
+  --radius-lg:     #{$radius-lg};
+}
+
+// ── Mixins ────────────────────────────────────────────────────────────────────
+@mixin scrollbar($width: 4px) {
+  &::-webkit-scrollbar       { width: $width; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $c-border; border-radius: $width; }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-row($gap: 0) {
+  display: flex;
+  align-items: center;
+  @if $gap > 0 { gap: $gap; }
+}
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input { font-family: inherit; }
+
+body {
+  background: $c-bg;
+  color: $c-text;
+  font-family: $font-body;
+}
+
+// ── Root shell ────────────────────────────────────────────────────────────────
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: $c-bg;
+}
+
+// ── Top nav ───────────────────────────────────────────────────────────────────
+.topnav {
+  @include flex-row(1rem);
+  height: $topnav-h;
+  background: $c-surface;
+  border-bottom: 0.5px solid $c-border;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  flex-shrink: 0;
+  z-index: 100;
+
+  &-left {
+    @include flex-row(12px);
+    flex-shrink: 0;
+  }
+
+  &-search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  &-right {
+    @include flex-row(6px);
+    flex-shrink: 0;
+  }
+}
+
+.brand {
+  @include flex-row(8px);
+
+  &-icon {
+    font-size: 20px;
+    color: $c-accent;
+  }
+
+  &-name {
+    font-size: 18px;
+    font-style: italic;
+    color: $c-text;
+    letter-spacing: 0.02em;
+  }
+}
+
+.search {
+  &-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: $c-text-muted;
+    pointer-events: none;
+  }
+
+  &-input {
+    width: 100%;
+    height: 36px;
+    background: $c-surface2;
+    border: 0.5px solid $c-border;
+    border-radius: $radius-md;
+    color: $c-text;
+    font-size: 14px;
+    padding: 0 12px 0 36px;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &::placeholder { color: $c-text-dim; }
+    &:focus        { border-color: $c-accent; }
+  }
+}
+
+.icon-btn {
+  @include flex-center;
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-sm;
+  color: $c-text-muted;
+  transition: background 0.15s, color 0.15s;
+
+  i { font-size: 18px; }
+
+  &:hover {
+    background: $c-surface2;
+    color: $c-text;
+  }
+}
+
+.avatar {
+  @include flex-center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: $c-accent;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: $font-ui;
+  letter-spacing: 0.03em;
+}
+
+// ── Body layout ───────────────────────────────────────────────────────────────
+.body-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+.sidebar {
+  width: $sidebar-w;
+  min-width: $sidebar-w;
+  background: $c-surface;
+  border-right: 0.5px solid $c-border;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width 0.25s ease, min-width 0.25s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+
+  @include scrollbar(4px);
+
+  &.closed {
+    width: 0;
+    min-width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &-inner {
+    padding: 1.25rem 1rem;
+    min-width: $sidebar-w;
+  }
+
+  &-section {
+    margin-bottom: 0.25rem;
+
+    &-title {
+      @include flex-row(6px);
+      font-size: 10px;
+      font-weight: 600;
+      font-family: $font-ui;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: $c-text-muted;
+      margin-bottom: 10px;
+
+      i { font-size: 14px; }
+
+      .time-val {
+        margin-left: auto;
+        font-size: 11px;
+        color: $c-accent;
+        letter-spacing: 0;
+        text-transform: none;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.divider {
+  height: 0.5px;
+  background: $c-border;
+  margin: 1rem 0;
+}
+
+// ── Sort ──────────────────────────────────────────────────────────────────────
+.sort-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sort-btn {
+  text-align: left;
+  font-size: 13px;
+  color: $c-text-muted;
+  padding: 7px 10px;
+  border-radius: $radius-sm;
+  transition: background 0.12s, color 0.12s;
+  font-family: $font-ui;
+
+  &:hover  { background: $c-surface2; color: $c-text; }
+  &.active { background: $c-accent-muted; color: $c-accent; }
+}
+
+// ── Chips ─────────────────────────────────────────────────────────────────────
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  @include flex-row(4px);
+  display: inline-flex;
+  font-size: 12px;
+  font-family: $font-ui;
+  color: $c-text-muted;
+  background: $c-surface2;
+  border: 0.5px solid $c-border;
+  border-radius: 999px;
+  padding: 4px 10px;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+
+  i { font-size: 12px; }
+
+  &:hover {
+    background: $c-surface;
+    color: $c-text;
+    border-color: $c-text-dim;
+  }
+
+  &.active {
+    background: $c-accent-muted;
+    color: $c-accent;
+    border-color: rgba(212, 132, 58, 0.35);
+  }
+
+  &.diff-active {
+    background: color-mix(in srgb, var(--diff-color) 15%, transparent);
+    color: var(--diff-color);
+    border-color: color-mix(in srgb, var(--diff-color) 35%, transparent);
+  }
+}
+
+// ── Time slider ───────────────────────────────────────────────────────────────
+.time-slider {
+  width: 100%;
+  accent-color: $c-accent;
+  cursor: pointer;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: $c-text-dim;
+  font-family: $font-ui;
+  margin-top: 4px;
+}
+
+// ── Clear button ──────────────────────────────────────────────────────────────
+.clear-btn {
+  @include flex-center;
+  width: 100%;
+  gap: 6px;
+  font-size: 12px;
+  font-family: $font-ui;
+  color: $c-text-muted;
+  border: 0.5px solid $c-border;
+  border-radius: $radius-sm;
+  padding: 8px;
+  transition: color 0.12s, border-color 0.12s;
+
+  i { font-size: 13px; }
+
+  &:hover {
+    color: $c-danger;
+    border-color: rgba(226, 75, 74, 0.3);
+  }
+}
+
+// ── Main content ──────────────────────────────────────────────────────────────
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+
+  @include scrollbar(6px);
+}
+
+// ── Results bar ───────────────────────────────────────────────────────────────
+.results-bar {
+  @include flex-row(10px);
+  margin-bottom: 1.25rem;
+}
+
+.results-count {
+  font-size: 13px;
+  font-family: $font-ui;
+  color: $c-text-muted;
+}
+
+.filtered-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: $c-accent-muted;
+  color: $c-accent;
+  font-family: $font-ui;
+  vertical-align: middle;
+}
+
+// ── Recipe grid ───────────────────────────────────────────────────────────────
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+// ── Skeleton loading ──────────────────────────────────────────────────────────
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+
+.skeleton {
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.25rem;
+  }
+
+  &-card {
+    background: $c-surface;
+    border: 0.5px solid $c-border;
+    border-radius: $radius-lg;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.skel {
+  border-radius: $radius-sm;
+  background: linear-gradient(
+    90deg,
+    $c-surface2 25%,
+    $c-surface   50%,
+    $c-surface2  75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+
+  &-hero { height: 140px; border-radius: $radius-md; }
+  &-line { height: 12px; }
+
+  &.w70 { width: 70%; }
+  &.w50 { width: 50%; }
+  &.w90 { width: 90%; }
+}
+
+// ── Error state ───────────────────────────────────────────────────────────────
+.state-center {
+  @include flex-center;
+  min-height: 300px;
+}
+
+.error-box {
+  @include flex-center;
+  flex-direction: column;
+  text-align: center;
+  gap: 12px;
+  color: $c-text-muted;
+
+  i { font-size: 36px; color: $c-danger; }
+  p { font-size: 14px; font-family: $font-ui; }
+}
+
+.retry-btn {
+  @include flex-row(6px);
+  display: inline-flex;
+  font-size: 13px;
+  font-family: $font-ui;
+  color: $c-accent;
+  border: 0.5px solid rgba(212, 132, 58, 0.35);
+  border-radius: $radius-sm;
+  padding: 7px 16px;
+  transition: background 0.12s;
+
+  &:hover { background: $c-accent-muted; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-state {
+  @include flex-center;
+  flex-direction: column;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1rem;
+  gap: 12px;
+  color: $c-text-muted;
+
+  i { font-size: 40px; color: $c-text-dim; }
+  p { font-size: 14px; font-family: $font-ui; }
+
+  .clear-btn {
+    width: auto;
+    padding: 8px 20px;
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: $topnav-h;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .topnav-search { max-width: 180px; }
+
+  .recipe-grid,
+  .skeleton-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,121 @@
+@if (recipe) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal-panel" role="dialog" aria-modal="true">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <span class="cuisine-badge">
+            {{ capitalize(recipe.cuisine) }} · {{ capitalize(recipe.meal_type) }}
+          </span>
+          <h2 class="modal-title">{{ recipe.name }}</h2>
+          <p class="modal-desc">{{ recipe.description }}</p>
+        </div>
+        <button class="close-btn" (click)="onClose()" aria-label="Close">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Scrollable body -->
+      <div class="modal-body">
+
+        <!-- Stats row -->
+        <div class="stats-row">
+          <div class="stat-box">
+            <span class="stat-val">{{ recipe.servings }}</span>
+            <span class="stat-label"><i class="ti ti-users"></i> Servings</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val">{{ recipe.prep_time }}<small>min</small></span>
+            <span class="stat-label"><i class="ti ti-clock"></i> Prep</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val">{{ recipe.cook_time }}<small>min</small></span>
+            <span class="stat-label"><i class="ti ti-flame"></i> Cook</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val">{{ recipe.calories_per_serving }}</span>
+            <span class="stat-label"><i class="ti ti-bolt"></i> Cal</span>
+          </div>
+        </div>
+
+        <!-- Two columns: ingredients + nutrition -->
+        <div class="detail-grid">
+
+          <!-- Ingredients -->
+          <section class="detail-card">
+            <h3 class="section-title"><i class="ti ti-list"></i> Ingredients</h3>
+            <ul class="ingredient-list">
+              @for (ing of recipe.ingredients; track ing.id) {
+                <li class="ingredient-item">
+                  <span class="dot" [style.background]="getDotColor(ing)"></span>
+                  <span class="ing-name">{{ ing.name }}</span>
+                  <span class="ing-cat">{{ ing.category }}</span>
+                  <span class="ing-qty">
+                    {{ formatQuantity(ing.quantity) }} {{ ing.unit }}
+                  </span>
+                </li>
+              }
+            </ul>
+          </section>
+
+          <!-- Nutrition + Meta -->
+          <section class="detail-card">
+            <h3 class="section-title"><i class="ti ti-heart-rate-monitor"></i> Nutrition per serving</h3>
+
+            <div class="cal-display">
+              <span class="cal-num">{{ recipe.calories_per_serving }}</span>
+              <span class="cal-unit">kcal</span>
+            </div>
+
+            <div class="nut-rows">
+              <div class="nut-row">
+                <span>Protein</span>
+                <span>{{ recipe.protein }} g</span>
+              </div>
+              <div class="nut-row">
+                <span>Meal type</span>
+                <span>{{ capitalize(recipe.meal_type) }}</span>
+              </div>
+              <div class="nut-row">
+                <span>Difficulty</span>
+                <span>{{ capitalize(recipe.difficulty) }}</span>
+              </div>
+            </div>
+
+            <div class="meta-block">
+              <div class="meta-label"><i class="ti ti-temperature"></i> Temperature</div>
+              <div class="meta-val">200°C / 390°F</div>
+              <div class="meta-sub">Oven — preheat required</div>
+            </div>
+
+            <div class="summary-chips">
+              <div class="summary-chip">
+                <span class="chip-num">{{ totalTime }} min</span>
+                <span class="chip-sub">total time</span>
+              </div>
+              <div class="summary-chip">
+                <span class="chip-num">#{{ recipe.id }}</span>
+                <span class="chip-sub">recipe id</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Instructions -->
+        <section class="detail-card instructions-card">
+          <h3 class="section-title"><i class="ti ti-list-numbers"></i> Instructions</h3>
+          <ol class="steps-list">
+            @for (step of recipe.instructions; track $index) {
+              <li class="step-item">
+                <span class="step-num">{{ $index + 1 }}</span>
+                <span class="step-text">{{ step }}</span>
+              </li>
+            }
+          </ol>
+        </section>
+
+      </div>
+    </div>
+  </div>
+}

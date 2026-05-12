@@ -1,0 +1,53 @@
+<div class="recipe-card" (click)="open()" role="button" tabindex="0" (keyup.enter)="open()">
+
+  <!-- Hero -->
+  <div class="card-hero">
+    <div class="card-hero-emoji">🍽️</div>
+    <div class="card-hero-content">
+      <span class="cuisine-badge">
+        {{ capitalize(recipe.cuisine) }} · {{ capitalize(recipe.meal_type) }}
+      </span>
+      <h2 class="card-title">{{ recipe.name }}</h2>
+      <p class="card-desc">{{ recipe.description }}</p>
+    </div>
+  </div>
+
+  <!-- Tags -->
+  <div class="card-tags">
+    @for (tag of recipe.dietary_tags; track tag) {
+      <span class="tag" [ngClass]="dietaryTagClass[tag]">
+        {{ dietaryTagLabel[tag] }}
+      </span>
+    }
+    <span class="tag tag-amber">{{ capitalize(recipe.meal_type) }}</span>
+    <span class="tag tag-diff" [attr.data-diff]="recipe.difficulty">
+      {{ capitalize(recipe.difficulty) }}
+    </span>
+  </div>
+
+  <!-- Quick stats -->
+  <div class="card-stats">
+    <div class="stat">
+      <span class="stat-val">{{ recipe.servings }}</span>
+      <span class="stat-label">Servings</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">{{ recipe.prep_time }}<small>min</small></span>
+      <span class="stat-label">Prep</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">{{ recipe.cook_time }}<small>min</small></span>
+      <span class="stat-label">Cook</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">{{ recipe.calories_per_serving }}</span>
+      <span class="stat-label">Cal/serving</span>
+    </div>
+  </div>
+
+  <!-- Click hint -->
+  <div class="card-hint">
+    <i class="ti ti-info-circle"></i> Tap for nutrition &amp; instructions
+  </div>
+
+</div>
